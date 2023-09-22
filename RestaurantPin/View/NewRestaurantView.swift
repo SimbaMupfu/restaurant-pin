@@ -13,6 +13,8 @@ struct NewRestaurantView: View {
     @State private var showPhotoOptions = false
     @State private var photoSource: PhotoSource?
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationStack{
             ScrollView{
@@ -38,6 +40,22 @@ struct NewRestaurantView: View {
                 .padding()
             }
             .navigationTitle("New Restaurant")
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading){
+                    Button(action: {
+                        dismiss()
+                    }){
+                        Image(systemName: "xmark")
+                    }
+                    .accentColor(.primary)
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Text("Save")
+                        .font(.headline)
+                        .foregroundColor(Color("NavigationBarTitle"))
+                }
+            }
         }
         .actionSheet(isPresented: $showPhotoOptions){
             ActionSheet(title: Text("Choose your photo source"),
@@ -50,6 +68,12 @@ struct NewRestaurantView: View {
                 },
                 .cancel()
             ])
+        }
+        .fullScreenCover(item: $photoSource){ source in
+            switch source {
+            case .photoLibrary: ImagePicker(sourceType: .photoLibrary, selectedImage: $restaurantImage).ignoresSafeArea()
+            case .camera: ImagePicker(sourceType: .camera,selectedImage: $restaurantImage).ignoresSafeArea()
+            }
         }
     }
     

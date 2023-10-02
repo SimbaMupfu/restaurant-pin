@@ -58,7 +58,7 @@ struct ReviewView: View {
                     .offset(x: showRatings ? 0 : 1000)
                     .animation(.easeOut.delay(Double(Restaurant.Rating.allCases.firstIndex(of: rating)!) * 0.05), value: showRatings)
                     .onTapGesture {
-                        self.restaurant.rating = rating
+                        self.restaurant.ratingText = rating
                         self.isDisplayed = false
                     }
                 }

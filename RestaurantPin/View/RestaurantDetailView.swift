@@ -57,7 +57,7 @@ struct RestaurantDetailView: View {
                                 .foregroundColor(.white)
                                 .padding()
                                 
-                                if let rating = restaurant.rating, !showReview{
+                                if let rating = restaurant.ratingText, !showReview{
                                     Image(rating.image)
                                         .resizable()
                                         .frame(width: 60, height: 60)
@@ -65,11 +65,11 @@ struct RestaurantDetailView: View {
                                         .transition(.scale)
                                 }
                             }
-                            .animation(.spring(response: 0.2, dampingFraction: 0.3, blendDuration: 0.3), value: restaurant.rating)
+                            .animation(.spring(response: 0.2, dampingFraction: 0.3, blendDuration: 0.3), value: restaurant.ratingText)
                         }
                     }
                 
-                Text(restaurant.description)
+                Text(restaurant.summary)
                     .padding()
                 
                 HStack(alignment: .top){

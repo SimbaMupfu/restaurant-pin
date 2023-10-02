@@ -7,28 +7,20 @@
 
 import Foundation
 import Combine
+import CoreData
 
-class Restaurant: ObservableObject {
-    @Published var name: String
-    @Published var type: String
-    @Published var location: String
-    @Published var phone: String
-    @Published var description: String
-    @Published var image: String
-    @Published var isFavourite: Bool
-    @Published var rating: Rating?
-    
-    init(name: String, type: String, location: String, phone: String, description: String, image: String, isFavourite: Bool, rating: Rating? = nil) {
-        self.name = name
-        self.type = type
-        self.location = location
-        self.phone = phone
-        self.description = description
-        self.image = image
-        self.isFavourite = isFavourite
-        self.rating = rating
-    }
-    
+class Restaurant: NSManagedObject {
+    @NSManaged var name: String
+    @NSManaged var type: String
+    @NSManaged var location: String
+    @NSManaged var phone: String
+    @NSManaged var summary: String
+    @NSManaged var image: Data
+    @NSManaged var isFavourite: Bool
+    @NSManaged var ratingText: String?
+}
+
+extension Restaurant {
     enum Rating: String, CaseIterable{
         case awesome
         case good
@@ -38,12 +30,25 @@ class Restaurant: ObservableObject {
         
         var image: String{
             switch self{
-            case . awesome: return "love"
+            case .awesome: return "love"
             case .good: return "cool"
             case .okay: return "happy"
             case .bad: return "sad"
             case .terrible: return "angry"
             }
+        }
+    }
+    
+    var rating: Rating? {
+        get {
+            guard let ratingText = ratingText else {
+                return nil
+            }
+            return Rating(rawValue: ratingText)
+        }
+        
+        set {
+            self.ratingText = newValue?.rawValue
         }
     }
 }

@@ -18,6 +18,7 @@ struct RestaurantListView: View {
 //    ]
     
     @State private var showNewRestaurant = false
+    @Environment(\.managedObjectContext) var context
     
     var body: some View {
         NavigationStack {
@@ -28,12 +29,10 @@ struct RestaurantListView: View {
                             EmptyView()
                         }
                         .opacity(0)
-                        HorizontalRestaurantDetailsView(restaurant: $restaurants[index])
+                        HorizontalRestaurantDetailsView(restaurant: restaurants[index])
                     }
                 }
-                .onDelete(perform: { indexSet in
-                    restaurants.remove(atOffsets: indexSet)
-                })
+                .onDelete(perform: deleteRecord)
                 .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
@@ -53,6 +52,21 @@ struct RestaurantListView: View {
             NewRestaurantView()
         }
     }
+    
+    private func deleteRecord(indexSet: IndexSet) {
+        for index in indexSet {
+            let itemToDelete = restaurants[index]
+            context.delete(itemToDelete)
+        }
+        
+        DispatchQueue.main.async {
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
+        }
+    }
 }
 
 struct RestaurantListView_Previews: PreviewProvider {
@@ -66,14 +80,14 @@ struct RestaurantListView_Previews: PreviewProvider {
 }
 
 struct HorizontalRestaurantDetailsView: View {
-    @Binding var restaurant: Restaurant
+    @ObservedObject var restaurant: Restaurant
     
     @State private var showOptions = false
     @State private var showError = false
     
     var body: some View {
             HStack(alignment: .top, spacing: 20){
-                Image(restaurant.image)
+                Image(uiImage: UIImage(data: restaurant.image) ?? UIImage())
                     .resizable()
                     .frame(width: 120, height: 118)
                     .cornerRadius(20)
@@ -127,7 +141,7 @@ struct HorizontalRestaurantDetailsView: View {
             .sheet(isPresented: $showOptions){
                 let defaultText = "Just checking in at \(restaurant.name)"
                 
-                if let imageToShare = UIImage(named: restaurant.image){
+                if let imageToShare = UIImage(data: restaurant.image){
                     ActivityView(activityItems: [defaultText, imageToShare])
                 }else{
                     ActivityView(activityItems: [defaultText])
@@ -138,7 +152,7 @@ struct HorizontalRestaurantDetailsView: View {
 
 struct VerticalRestaurantDetailsView: View {
     
-    @Binding var restaurant: Restaurant
+    @ObservedObject var restaurant: Restaurant
     
     @State private var showOptions = false
     @State private var showError = false
@@ -146,7 +160,7 @@ struct VerticalRestaurantDetailsView: View {
     var body: some View {
             
                 VStack(alignment: .leading, spacing: 10){
-                    Image(restaurant.image)
+                    Image(uiImage: UIImage(data: restaurant.image) ?? UIImage())
                         .resizable()
                         .scaledToFill()
                         .frame(height: 200)
@@ -208,7 +222,7 @@ struct VerticalRestaurantDetailsView: View {
                 .sheet(isPresented: $showOptions){
                     let defaultText = "Just checking in at \(restaurant.name)"
                     
-                    if let imageToShare = UIImage(named: restaurant.image){
+                    if let imageToShare = UIImage(data: restaurant.image){
                         ActivityView(activityItems: [defaultText, imageToShare])
                     }else{
                         ActivityView(activityItems: [defaultText])

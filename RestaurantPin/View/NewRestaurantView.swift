@@ -12,8 +12,15 @@ struct NewRestaurantView: View {
     @State private var restaurantImage = UIImage(named: "newphoto")!
     @State private var showPhotoOptions = false
     @State private var photoSource: PhotoSource?
+    @ObservedObject private var restaurantFormViewModel: RestaurantFormViewModel
     
     @Environment(\.dismiss) var dismiss
+    
+    init(){
+        let viewModel = RestaurantFormViewModel()
+        viewModel.image = UIImage(named: "newphoto")!
+        restaurantFormViewModel = viewModel
+    }
     
     var body: some View {
         NavigationStack{

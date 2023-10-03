@@ -23,17 +23,23 @@ struct RestaurantListView: View {
     var body: some View {
         NavigationStack {
             List{
-                ForEach(restaurants.indices, id: \.self){ index in
-                    ZStack(alignment: .leading) {
-                        NavigationLink(destination: RestaurantDetailView(restaurant: restaurants[index])) {
-                            EmptyView()
+                if restaurants.count <= 0 {
+                    Image("emptydata")
+                        .resizable()
+                        .scaledToFit()
+                }else {
+                    ForEach(restaurants.indices, id: \.self){ index in
+                        ZStack(alignment: .leading) {
+                            NavigationLink(destination: RestaurantDetailView(restaurant: restaurants[index])) {
+                                EmptyView()
+                            }
+                            .opacity(0)
+                            HorizontalRestaurantDetailsView(restaurant: restaurants[index])
                         }
-                        .opacity(0)
-                        HorizontalRestaurantDetailsView(restaurant: restaurants[index])
                     }
+                    .onDelete(perform: deleteRecord)
+                    .listRowSeparator(.hidden)
                 }
-                .onDelete(perform: deleteRecord)
-                .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
             .navigationTitle("Restaurant Pin")
@@ -72,6 +78,17 @@ struct RestaurantListView: View {
 struct RestaurantListView_Previews: PreviewProvider {
     static var previews: some View {
         RestaurantListView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            
+        RestaurantListView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .preferredColorScheme(.dark)
+        
+        HorizontalRestaurantDetailsView(restaurant: (PersistenceController.testData?.first)!)
+            .previewLayout(.sizeThatFits)
+        
+        VerticalRestaurantDetailsView(restaurant: (PersistenceController.testData?.first)!)
+            .previewLayout(.sizeThatFits)
         
         RestaurantListView()
             .preferredColorScheme(.dark)

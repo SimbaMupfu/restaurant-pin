@@ -19,6 +19,7 @@ struct RestaurantListView: View {
     
     @State private var showNewRestaurant = false
     @Environment(\.managedObjectContext) var context
+    @State private var searchText = ""
     
     var body: some View {
         NavigationStack {
@@ -56,6 +57,14 @@ struct RestaurantListView: View {
         .accentColor(.white)
         .sheet(isPresented: $showNewRestaurant){
             NewRestaurantView()
+        }
+        .searchable(text: $searchText, prompt: "Search restaurants...")
+        .onChange(of: searchText){ query in
+            let namePredicate = NSPredicate(format: "name CONTAINS[c] %@", query)
+            let typePredicate = NSPredicate(format: "type CONTAINS[c] %@", query)
+            let locationPredicate = NSPredicate(format: "location CONTAINS[c] %@", query)
+            let compoundPredicate = NSCompoundPredicate(type: .or, subpredicates: [namePredicate, typePredicate, locationPredicate])
+            restaurants.nsPredicate = query.isEmpty ? NSPredicate(value: true) : compoundPredicate
         }
     }
     

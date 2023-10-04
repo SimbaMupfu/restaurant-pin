@@ -11,8 +11,9 @@ import MapKit
 struct RestaurantDetailView: View {
     @Environment(\.dismiss) var dismiss
     
-    var restaurant: Restaurant
+    @ObservedObject var restaurant: Restaurant
     @State private var showReview = false
+    @Environment(\.managedObjectContext) var context
     
     @State private var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 40.75773, longitude: -73.985708), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
     
@@ -129,6 +130,11 @@ struct RestaurantDetailView: View {
             ReviewView(isDisplayed: $showReview, restaurant: restaurant)
                 .navigationBarHidden(true)
         }: nil)
+        .onChange(of: restaurant){ _ in
+            if self.context.hasChanges {
+                try? self.context.save()
+            }
+        }
     }
 }
 

@@ -15,6 +15,7 @@ struct OnboardingView: View {
     
     @State private var currentPage = 0
     @Environment(\.dismiss) var dismiss
+    @AppStorage("hasViewedWalkthrough") var hasViewedWalkthrough: Bool = false
     
     init() {
         UIPageControl.appearance().currentPageIndicatorTintColor = .systemIndigo
@@ -38,6 +39,7 @@ struct OnboardingView: View {
                     if currentPage < pageHeadings.count - 1 {
                         currentPage += 1
                     }else {
+                        hasViewedWalkthrough = true
                         dismiss()
                     }
                 }){
@@ -52,6 +54,7 @@ struct OnboardingView: View {
                 
                 if currentPage < pageHeadings.count - 1 {
                     Button(action: {
+                        hasViewedWalkthrough = true
                         dismiss()
                     }){
                         Text("Skip")

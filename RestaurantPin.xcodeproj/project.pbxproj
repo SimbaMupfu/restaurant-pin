@@ -24,6 +24,7 @@
 		C18B3DA52ABAC273004FC28B /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B3DA42ABAC273004FC28B /* ReviewView.swift */; };
 		C1B52D2D2ABE300A00B0D4FE /* NewRestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B52D2C2ABE300A00B0D4FE /* NewRestaurantView.swift */; };
 		C1B52D302ABE492B00B0D4FE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B52D2F2ABE492B00B0D4FE /* ImagePicker.swift */; };
+		C1C6B88D2ACD92EC0066D54A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C6B88C2ACD92EC0066D54A /* OnboardingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		C18B3DA42ABAC273004FC28B /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		C1B52D2C2ABE300A00B0D4FE /* NewRestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRestaurantView.swift; sourceTree = "<group>"; };
 		C1B52D2F2ABE492B00B0D4FE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		C1C6B88C2ACD92EC0066D54A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				C18B3DA22AB8A9B0004FC28B /* MapView.swift */,
 				C18B3DA42ABAC273004FC28B /* ReviewView.swift */,
 				C1B52D2C2ABE300A00B0D4FE /* NewRestaurantView.swift */,
+				C1C6B88C2ACD92EC0066D54A /* OnboardingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				C13F41A02AAD131800B99C66 /* RestaurantPinApp.swift in Sources */,
 				C18510032ACA93B1001223C6 /* RestaurantPin.xcdatamodeld in Sources */,
 				C13F41AE2AB0F52F00B99C66 /* Restaurant.swift in Sources */,
+				C1C6B88D2ACD92EC0066D54A /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
